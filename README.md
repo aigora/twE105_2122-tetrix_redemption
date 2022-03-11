@@ -1,10 +1,14 @@
-# [Título del trabajo]
+# Tetrix
 
-[Descripción breve del proyecto a realizar (2-3 frases).]
+Tetris el clásico juego de colocar piezas para llenar filas
 
 ## Integrantes del equipo
 
-[Nombres, apellidos, y usuario GitHub de los integrantes del equipo.]
+Darío Carnés Blasco (dcblasco)
+Jose Bermejo 
+Santiago Carazo Pintado
+Matías Polo
+Solomilla
 
 ## Objetivos del trabajo
 
