@@ -4,11 +4,11 @@ Tetris el clásico juego de colocar piezas para llenar filas
 
 ## Integrantes del equipo
 
-Darío Carnés Blasco (dcblasco)
-Jose Bermejo 
-Santiago Carazo Pintado
-Matías Polo
-Solomilla
+Darío Carnés Blasco (dcblasco),
+Jose Bermejo,
+Santiago Carazo Pintado,
+Matías Polo,
+Solomiya.
 
 ## Objetivos del trabajo
 
