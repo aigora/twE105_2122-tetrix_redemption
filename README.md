@@ -6,7 +6,7 @@ Tetris el clásico juego de colocar piezas para llenar filas
 
  - Darío Carnés Blasco (dcblasco)
  - Jose Bermejo
- - Santiago Carazo Pintado
+ - Santiago Carazo Pintado (Santiago-Carazo)
  - Matías Polo
  - Solomiya
 
