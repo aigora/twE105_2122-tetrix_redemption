@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1650811689 source:d:\codeblocks\tetrix_redemption\tetrisfunctions.c
+	<stdio.h>
+	"tetrisfunctions.h"
+	<time.h>
+	<stdlib.h>
+
+1650811022 d:\codeblocks\tetrix_redemption\tetrisfunctions.h
+	<stdio.h>
+
+1650811704 source:d:\codeblocks\tetrix_redemption\tetrix_redemption.c
+	<stdio.h>
+	"tetrisfunctions.h"
+	<time.h>
+	<stdlib.h>
+
