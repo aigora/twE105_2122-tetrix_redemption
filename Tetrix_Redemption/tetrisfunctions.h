@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<SDL2/SDL.h>
 
 typedef struct //entiendo la pieza como una pieza formada por cuatro bloques
 {
@@ -10,11 +11,13 @@ typedef struct //entiendo la pieza como una pieza formada por cuatro bloques
 
 //para obtener las coordenadas de los bloques no centrales se suman las coordenadas relativas a las totales
 
-void pintamatr(int matriz[][20],int tamfil,int tamcol); //sacará una matriz por pantalla
+void pintamatr(int matriz[][20],int tamfil,int tamcol,SDL_Renderer *render); //sacará una matriz por pantalla
 void vacia(int matriz [][20],int fil, int col,int vasio); // vacia una matriz
 void mat2mat(int mat[][20],int screenmat[][20], int fil, int col); // asigna el contenido de una matriz a otra
 void piece2mat(int mat[][20],pieza pis); //asigna una pieza a la matriz, metiendo sus posiciones en la matriz
-void newframe(int mat[][20],int mats[][20],int fil,int col,int vasio,pieza pis); //composicion de funciones para actualizar y pintar el nuevo estado del juego
+void newframe(int mat[][20],int mats[][20],int fil,int col,int vasio,pieza pis,SDL_Renderer *render); //composicion de funciones para actualizar y pintar el nuevo estado del juego
+void scene(SDL_Renderer *Render,SDL_Window *Ventana,SDL_Texture *Textura,char path[]); //Para pintar fondos y escenarios
+void pintapiece(pieza curr,pieza old,SDL_Renderer *render);//Saca la pieza con la que se está jugando por pantalla
 
 pieza newpiece(pieza pise); // generación de una nueva pieza
 int canfall(int matriz[][20],int fil,int col,pieza pise,int vasio); //comprueba que la pieza puede caer

@@ -2,25 +2,152 @@
 #include"tetrisfunctions.h"
 #include<time.h>
 #include<stdlib.h>
+#include<SDL2/SDL.h>
 
-void pintamatr(int matriz[][20],int tamfil,int tamcol) //pintar una matriz, usando dos bucles uno anidado en el otro, yo uso while, lo normal serían for
+
+void pintapiece(pieza curr,pieza old,SDL_Renderer *render) //Saca la pieza con la que se está jugando por pantalla
 {
-    int i=0, j=0;
+    int i, j,x1,y1,x[4],y[4];
+    SDL_Rect filrect;
+    filrect.w=50;
+    filrect.h=50;
 
-    i=0;
-    while(i<tamcol)
+    SDL_SetRenderDrawColor(render,0,0,0,255);
+
+    x[0]=old.posx;
+    y[0]=old.posy;
+    for(i=1;i<4;i+=1)
     {
-        printf("%i \t( ",i);
-        j=0;
-        while(j<tamfil)
-        {
-            printf(" %c ", matriz[j][i]);
-            j+=1;
-        }
-        i+=1;
-        printf(") \n");
+        x[i]=(old.posx+old.rposx[i-1]);
+        y[i]=(old.posy+old.rposy[i-1]);
     }
-    printf("\n \n");
+
+
+    for(i=0;i<4;i+=1)
+    {
+        x1=710+50*(x[i]);
+        y1=40+50*(y[i]);
+
+        filrect.x=x1;
+        filrect.y=y1;
+        SDL_RenderFillRect(render,&filrect);
+        SDL_RenderPresent(render);
+
+    }
+
+    x[0]=curr.posx;
+    y[0]=curr.posy;
+    for(i=1;i<4;i+=1)
+    {
+        x[i]=curr.posx+curr.rposx[i-1];
+        y[i]=curr.posy+curr.rposy[i-1];
+    }
+
+    if(curr.type=='i')
+    {
+        SDL_SetRenderDrawColor(render,51,255,255,255);
+    }
+    if(curr.type=='c')
+    {
+         SDL_SetRenderDrawColor(render,255,255,0,255);
+    }
+    if(curr.type=='t')
+    {
+        SDL_SetRenderDrawColor(render,170,0,255,255);
+    }
+    if(curr.type=='s')
+    {
+        SDL_SetRenderDrawColor(render,0,255,0,255);
+    }
+    if(curr.type=='z')
+    {
+        SDL_SetRenderDrawColor(render,255,0,0,255);
+    }
+    if(curr.type=='l')
+    {
+        SDL_SetRenderDrawColor(render,0,38,230,255);
+    }
+    if(curr.type=='j')
+    {
+        SDL_SetRenderDrawColor(render,255,128,0,255);
+    }
+
+    for(i=0;i<4;i+=1)
+    {
+        x1=710+50*(x[i]);
+        y1=40+50*(y[i]);
+
+        filrect.x=x1;
+        filrect.y=y1;
+        SDL_RenderFillRect(render,&filrect);
+        SDL_RenderPresent(render);
+
+    }
+
+}
+
+
+void pintamatr(int matriz[][20],int tamfil,int tamcol,SDL_Renderer *render) //pintar una matriz, usando dos bucles uno anidado en el otro, yo uso while, lo normal serían for
+{
+    int i=0, j=0,x1,y1;
+    SDL_Rect filrect;
+
+    filrect.w=50;
+    filrect.h=50;
+
+    for(i=0;i<tamcol;i++)
+    {
+       // printf("%i \t( ",i);
+        for(j=0;j<tamfil;j++)
+        {
+            //printf(" %c ", matriz[j][i]);
+
+            x1=710+50*j;
+            y1=40+50*i;
+
+            filrect.x=x1;
+            filrect.y=y1;
+
+            if( matriz[j][i]==' ')
+            {
+                SDL_SetRenderDrawColor(render,0,0,0,255);
+            }
+            if( matriz[j][i]=='i')
+            {
+                SDL_SetRenderDrawColor(render,51,255,255,255);
+            }
+            if( matriz[j][i]=='c')
+            {
+                SDL_SetRenderDrawColor(render,255,255,0,255);
+            }
+            if( matriz[j][i]=='t')
+            {
+                SDL_SetRenderDrawColor(render,170,0,255,255);
+            }
+            if( matriz[j][i]=='s')
+            {
+                SDL_SetRenderDrawColor(render,0,255,0,255);
+            }
+            if( matriz[j][i]=='z')
+            {
+                SDL_SetRenderDrawColor(render,255,0,0,255);
+            }
+            if( matriz[j][i]=='l')
+            {
+                SDL_SetRenderDrawColor(render,0,38,230,255);
+            }
+            if( matriz[j][i]=='j')
+            {
+                SDL_SetRenderDrawColor(render,255,128,0,255);
+            }
+
+            SDL_RenderFillRect(render,&filrect);
+
+            SDL_RenderPresent(render);
+        }
+        //printf(") \n");
+    }
+    //printf("\n \n");
 }
 
 void vacia(int mat[][20],int fil, int col,int vasio) //vacia una matriz usando un bucle anidado en otro
@@ -328,10 +455,37 @@ void linea(int mat[][20],int fil,int col,int vasio) //detecta y elimina lineas c
 
 }
 
-void newframe(int mat[][20],int mats[][20],int fil,int col,int vasio,pieza pis) //ejecuta en orden las funciones necesarias para actualizar la pantalla al estado del momento del juego
+void newframe(int mat[][20],int mats[][20],int fil,int col,int vasio,pieza pis,SDL_Renderer *render) //ejecuta en orden las funciones necesarias para actualizar la pantalla al estado del momento del juego
 {
+    system("cls");
     vacia(mats,fil,col,vasio); //primero se vacia la matriz que se usara para imprimir por pantalla
     mat2mat(mat,mats,fil,col); //segundo se asigna la matriz de estado a la matriz "pantalla"
     piece2mat(mats,pis);       //tercero se coloca la pieza en su posición actual, es importante hacer esto despues de asignar la matriz de estado ya que si se hiciera antes sería sobreescrita por los huecos de la matriz de estado
-    pintamatr(mats,fil,col);   //Por último se imprime la matriz "pantalla"
+    pintamatr(mats,fil,col,render);   //Por último se imprime la matriz "pantalla"
 }
+
+void scene(SDL_Renderer *Render,SDL_Window *Ventana,SDL_Texture *Textura,char path[])//Para pintar fondos y escenarios
+{
+      SDL_SetRenderDrawColor( Render, 0xFF, 0xFF, 0xFF, 0xFF ); //Se pone el color del render en blanco
+
+
+        SDL_Surface *SupCarg = SDL_LoadBMP(path); //Se carga el fondo
+            if( SupCarg == NULL ) //Se comprueba si se ha guardado bien el fondo
+            {
+                printf( "No se pudo cargar la imagen: %s SDL Error: %s\n", path, SDL_GetError() );
+            }
+            else
+            {
+                Textura = SDL_CreateTextureFromSurface( Render, SupCarg ); //Se aplica el fondo sobre la textura
+                if(  Textura == NULL ) //Se compueba si la textura ha cogido el fondo
+                {
+                    printf( "No se pudo cargar crear la textura SDL Error: %s\n", SDL_GetError() );
+                }
+                SDL_FreeSurface( SupCarg );
+
+
+                    SDL_RenderCopy( Render, Textura, NULL, NULL ); //Se coloca la textura sobre el render
+                    SDL_RenderPresent( Render ); //Se actualiza el Render
+            }
+}
+
