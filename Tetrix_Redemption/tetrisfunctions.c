@@ -86,7 +86,6 @@ void pintapiece(pieza curr,pieza old,SDL_Renderer *render) //Saca la pieza con l
 
 }
 
-
 void pintamatr(int matriz[][20],int tamfil,int tamcol,SDL_Renderer *render) //pintar una matriz, usando dos bucles uno anidado en el otro, yo uso while, lo normal serían for
 {
     int i=0, j=0,x1,y1;
@@ -457,7 +456,6 @@ void linea(int mat[][20],int fil,int col,int vasio) //detecta y elimina lineas c
 
 void newframe(int mat[][20],int mats[][20],int fil,int col,int vasio,pieza pis,SDL_Renderer *render) //ejecuta en orden las funciones necesarias para actualizar la pantalla al estado del momento del juego
 {
-    system("cls");
     vacia(mats,fil,col,vasio); //primero se vacia la matriz que se usara para imprimir por pantalla
     mat2mat(mat,mats,fil,col); //segundo se asigna la matriz de estado a la matriz "pantalla"
     piece2mat(mats,pis);       //tercero se coloca la pieza en su posición actual, es importante hacer esto despues de asignar la matriz de estado ya que si se hiciera antes sería sobreescrita por los huecos de la matriz de estado
