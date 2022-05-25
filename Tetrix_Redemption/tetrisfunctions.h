@@ -11,6 +11,8 @@ typedef struct //entiendo la pieza como una pieza formada por cuatro bloques
 
 //para obtener las coordenadas de los bloques no centrales se suman las coordenadas relativas a las totales
 
+int menu(int exit);
+
 void pintamatr(int matriz[][20],int tamfil,int tamcol,SDL_Renderer *render); //sacará una matriz por pantalla
 void vacia(int matriz [][20],int fil, int col,int vasio); // vacia una matriz
 void mat2mat(int mat[][20],int screenmat[][20], int fil, int col); // asigna el contenido de una matriz a otra

@@ -17,6 +17,7 @@ int main(int argv, char** args)
     SDL_Renderer *render;
     SDL_Texture *textura;
 
+    exit = menu(exit);
 
     srand(time(NULL));
     SDL_Init(SDL_INIT_EVERYTHING);

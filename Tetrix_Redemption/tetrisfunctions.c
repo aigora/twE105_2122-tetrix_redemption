@@ -4,6 +4,36 @@
 #include<stdlib.h>
 #include<SDL2/SDL.h>
 
+int menu(int exit)
+{
+    char menu;
+    printf("Puntuación(p) \nControles(c) \nJugar(j)\n");
+
+    while(exit=!0)
+    {
+        scanf("%c", &menu);
+
+        switch(menu)
+        {
+            case 'p':
+            case 'P':
+                //abre fichero y muestra la puntuación mas alta
+                break;
+
+            case 'c':
+            case 'C':
+                printf("Para mover la pieza en horizontal utilizar las flechas laterales, para rotar utilizar la flecha superior, y para bajar utilizar la inferior\n");
+                break;
+
+            case 'j':
+            case 'J':
+                exit = 0;
+                break;
+
+        }
+    }
+    return exit;
+}
 
 void pintapiece(pieza curr,pieza old,SDL_Renderer *render) //Saca la pieza con la que se está jugando por pantalla
 {
