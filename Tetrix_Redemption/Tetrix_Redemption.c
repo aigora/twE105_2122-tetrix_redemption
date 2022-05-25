@@ -92,7 +92,6 @@ int main(int argv, char** args)
                          }
                  }
                  pintapiece(pos,old,render);
-                 Sleep(60);
             }
 
 

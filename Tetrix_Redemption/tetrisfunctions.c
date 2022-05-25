@@ -96,11 +96,8 @@ void pintamatr(int matriz[][20],int tamfil,int tamcol,SDL_Renderer *render) //pi
 
     for(i=0;i<tamcol;i++)
     {
-       // printf("%i \t( ",i);
         for(j=0;j<tamfil;j++)
         {
-            //printf(" %c ", matriz[j][i]);
-
             x1=710+50*j;
             y1=40+50*i;
 
@@ -144,9 +141,7 @@ void pintamatr(int matriz[][20],int tamfil,int tamcol,SDL_Renderer *render) //pi
 
             SDL_RenderPresent(render);
         }
-        //printf(") \n");
     }
-    //printf("\n \n");
 }
 
 void vacia(int mat[][20],int fil, int col,int vasio) //vacia una matriz usando un bucle anidado en otro
