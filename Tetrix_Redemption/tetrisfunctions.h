@@ -19,7 +19,7 @@ void mat2mat(int mat[][20],int screenmat[][20], int fil, int col); // asigna el 
 void piece2mat(int mat[][20],pieza pis); //asigna una pieza a la matriz, metiendo sus posiciones en la matriz
 void newframe(int mat[][20],int mats[][20],int fil,int col,int vasio,pieza pis,SDL_Renderer *render); //composicion de funciones para actualizar y pintar el nuevo estado del juego
 void scene(SDL_Renderer *Render,SDL_Window *Ventana,SDL_Texture *Textura,char path[]); //Para pintar fondos y escenarios
-void pintapiece(pieza curr,pieza old,SDL_Renderer *render);//Saca la pieza con la que se está jugando por pantalla
+void pintapiece(pieza curr,pieza old,int mat[][20],int vasio,SDL_Renderer *render);//Saca la pieza con la que se está jugando por pantalla
 
 pieza newpiece(); // generación de una nueva pieza
 int canfall(int matriz[][20],int fil,int col,pieza pise,int vasio); //comprueba que la pieza puede caer
@@ -28,11 +28,14 @@ int canmove(int mat[][20],int fil,int col,pieza pis,int dir,int vasio);//comprue
 pieza mov(pieza pis,char dir);//mueve la pieza a la direccion elegida
 int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio);//comprueba que puede rotar la pieza a la dirección elegida
 pieza rot(pieza pis,char dir); // rota la pieza según la dirección elegida
+pieza hardfall(pieza pis,int mat [][20],int vasio);
 
 void linea(int mat[][20],int fil,int col,int vasio); //si hay una linea completa baja todo lo que haya arriba borrando la linea completa en el proceso
 int endgame(int mat[][20],int fil, int vasio); //si hay algún bloque en la última linea acaba la partida
 
-void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura);
+void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura,int *canhold);
 pieza nextpiece(pieza cola[],int tam,SDL_Renderer *render,SDL_Texture *textura);
 void rendercola(pieza cola[], int tam, SDL_Renderer *render,SDL_Texture *textura);
+pieza hold(pieza *hold,pieza curr,int *canhold,pieza cola[],SDL_Renderer *render, SDL_Texture *textura);
+void piecepreview(pieza pis,int mat[][20],int vasio,int alfa,int old,SDL_Renderer *render);
 

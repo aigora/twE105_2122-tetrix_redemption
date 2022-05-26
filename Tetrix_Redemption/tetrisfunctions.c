@@ -37,12 +37,15 @@ int menu()
     return exit;
 }
 
-void pintapiece(pieza curr,pieza old,SDL_Renderer *render) //Saca la pieza con la que se está jugando por pantalla
+void pintapiece(pieza curr,pieza old,int mat[][20],int vasio,SDL_Renderer *render) //Saca la pieza con la que se está jugando por pantalla
 {
-    int i, j,x1,y1,x[4],y[4];
+    int i,x1,y1,x[4],y[4];
     SDL_Rect filrect;
     filrect.w=50;
     filrect.h=50;
+
+    piecepreview(old,mat,vasio,255,1,render);
+    piecepreview(curr,mat,vasio,128,0,render);
 
     SDL_SetRenderDrawColor(render,0,0,0,255);
 
@@ -115,7 +118,6 @@ void pintapiece(pieza curr,pieza old,SDL_Renderer *render) //Saca la pieza con l
         SDL_RenderPresent(render);
 
     }
-
 }
 
 void pintamatr(int matriz[][20],int tamfil,int tamcol,SDL_Renderer *render) //pintar una matriz, usando dos bucles uno anidado en el otro, yo uso while, lo normal serían for
@@ -515,7 +517,7 @@ void scene(SDL_Renderer *Render,SDL_Window *Ventana,SDL_Texture *Textura,char pa
             }
 }
 
-void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura)
+void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura,int *canhold)
 {
     if(canfall(matestado,10,20,*pos,vasio)==1) // hacer la pieza caer si puede
                          {
@@ -529,6 +531,7 @@ void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza 
                              newframe(matestado,matscreen,10,20,vasio,*pos,render);
                              *exit=endgame(matestado,10,vasio);//se comprueba que la pieza no ha podido acabar la partida
                              *old=*pos;
+                             *canhold=1;
                          }
 }
 
@@ -552,7 +555,7 @@ pieza nextpiece(pieza cola[],int tam,SDL_Renderer *render,SDL_Texture *textura)
 
 void rendercola(pieza cola[], int tam, SDL_Renderer *render,SDL_Texture *textura)
 {
-    int i,j,x[4],y[4],s=20;
+    int i;
     SDL_Rect cl;
     cl.w=80;
     cl.h=80;
@@ -639,5 +642,217 @@ void rendercola(pieza cola[], int tam, SDL_Renderer *render,SDL_Texture *textura
     }
 }
 
+pieza hold(pieza *hold,pieza curr,int *canhold,pieza cola[],SDL_Renderer *render, SDL_Texture *textura)
+{
+    pieza aux;
+    SDL_Rect cl;
+    cl.w=80;
+    cl.h=80;
+    cl.x=510;
+    cl.y=200;
+
+    if(*canhold==1)
+    {
+        if(hold->type=='f')
+        {
+            *hold=curr;
+            curr=nextpiece(cola,4,render,textura);
+        }
+        else
+        {
+            aux=curr;
+            curr=*hold;
+            *hold=aux;
+
+        }
+        *canhold=0;
+    }
+
+
+        if(hold->type=='i')
+        {
+        SDL_Surface *SupCarg = SDL_LoadBMP("sprites/i.bmp");
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(hold->type=='c')
+        {
+        SDL_Surface *SupCarg = SDL_LoadBMP("sprites/c.bmp");
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(hold->type=='t')
+        {
+        SDL_Surface *SupCarg = SDL_LoadBMP("sprites/t.bmp");
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(hold->type=='s')
+        {
+        SDL_Surface *SupCarg = SDL_LoadBMP("sprites/s.bmp");
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(hold->type=='z')
+        {
+        SDL_Surface *SupCarg = SDL_LoadBMP("sprites/z.bmp");
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(hold->type=='l')
+        {
+        SDL_Surface *SupCarg = SDL_LoadBMP("sprites/l.bmp");
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(hold->type=='j')
+        {
+        SDL_Surface *SupCarg = SDL_LoadBMP("sprites/j.bmp");
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+
+    return curr;
+}
+
+void piecepreview(pieza pis,int mat[][20],int vasio,int alfa,int old,SDL_Renderer *render)
+{
+    int x[4],y[4],i,j,comp;
+    SDL_Rect filrect;
+    filrect.w=50;
+    filrect.h=50;
+
+
+    x[0]=pis.posx;
+    for(i=1;i<4;i+=1)
+    {
+        x[i]=x[0]+pis.rposx[i-1];
+    }
+
+    comp=1;
+    i=0;
+    while(comp==1)
+    {
+        y[0]=pis.posy+i;
+        for(j=1;j<4;j+=1)
+        {
+            y[j]=y[0]+pis.rposy[j-1];
+        }
+        for(j=0;j<4;j+=1)
+        {
+            if((mat[x[j]][y[j]]!=vasio)||y[j]>19)
+            {
+                comp=0;
+            }
+        }
+
+        i+=1;
+    }
+    y[0]=pis.posy+(i-2);
+    for(i=1;i<4;i+=1)
+    {
+        y[i]=y[0]+pis.rposy[i-1];
+    }
+
+
+
+    if(old==1)
+    {
+        SDL_SetRenderDrawColor(render,0,0,0,255);
+        for(i=0;i<4;i+=1)
+        {
+            filrect.x=710+50*(x[i]);
+            filrect.y=40+50*(y[i]);
+            SDL_RenderFillRect(render,&filrect);
+            SDL_RenderPresent(render);
+
+        }
+    }
+    else
+    {
+        if(pis.type=='i')
+        {
+            SDL_SetRenderDrawColor(render,51,255,255,alfa);
+        }
+        if(pis.type=='c')
+        {
+             SDL_SetRenderDrawColor(render,255,255,0,alfa);
+        }
+        if(pis.type=='t')
+        {
+            SDL_SetRenderDrawColor(render,170,0,255,alfa);
+        }
+        if(pis.type=='s')
+        {
+            SDL_SetRenderDrawColor(render,0,255,0,alfa);
+        }
+        if(pis.type=='z')
+        {
+            SDL_SetRenderDrawColor(render,255,0,0,alfa);
+        }
+        if(pis.type=='l')
+        {
+            SDL_SetRenderDrawColor(render,0,38,230,alfa);
+        }
+        if(pis.type=='j')
+        {
+            SDL_SetRenderDrawColor(render,255,128,0,alfa);
+        }
+
+        SDL_SetRenderDrawBlendMode(render,SDL_BLENDMODE_BLEND);
+        for(i=0;i<4;i+=1)
+        {
+            filrect.x=710+50*(x[i]);
+            filrect.y=40+50*(y[i]);
+            SDL_RenderFillRect(render,&filrect);
+            SDL_RenderPresent(render);
+
+        }
+        SDL_SetRenderDrawBlendMode(render,SDL_BLENDMODE_NONE);
+    }
+
+}
+
+pieza hardfall(pieza pis,int mat [][20],int vasio)
+{
+    int x[4],y[4],i,j,comp;
+
+
+    x[0]=pis.posx;
+    for(i=1;i<4;i+=1)
+    {
+        x[i]=x[0]+pis.rposx[i-1];
+    }
+
+    comp=1;
+    i=0;
+    while(comp==1)
+    {
+        y[0]=pis.posy+i;
+        for(j=1;j<4;j+=1)
+        {
+            y[j]=y[0]+pis.rposy[j-1];
+        }
+        for(j=0;j<4;j+=1)
+        {
+            if((mat[x[j]][y[j]]!=vasio)||y[j]>19)
+            {
+                comp=0;
+            }
+        }
+
+        i+=1;
+    }
+    pis.posy+=(i-2);
+
+        return pis;
+}
 
 

@@ -8,8 +8,8 @@
 int main(int argv, char** args)
 {
     int matestado[10][20],matscreen[10][20];//matestado guarda los bloques ya colocados y matscrren se usará para componer los bloques ya colocados y la posición de la pieza
-    pieza pos,old,cola[4];
-    int empty=' ',rotdir,movdir,exit=0,i;
+    pieza pos,old,cola[4],holdedpiece;
+    int empty=' ',rotdir,movdir,exit=0,i,canhold=1;
     int replay=1;
     time_t past, now;
     SDL_Event evento;
@@ -35,6 +35,7 @@ int main(int argv, char** args)
          cola[i]=newpiece();
      }
      pos=nextpiece(cola,4,render,textura);
+     holdedpiece.type='f';
      newframe(matestado,matscreen,10,20,empty,pos,render);
      past=time(NULL);
 
@@ -84,9 +85,20 @@ int main(int argv, char** args)
                  if(evento.key.keysym.sym==SDLK_s || evento.key.keysym.sym==SDLK_DOWN) // Caida rápida si es posible
                  {
                      truefall(matestado,matscreen,empty,&exit,
-                              &old,&pos,cola,render,textura);
+                              &old,&pos,cola,render,textura,&canhold);
                  }
-                 pintapiece(pos,old,render);
+                 if(evento.key.keysym.sym==SDLK_c || evento.key.keysym.sym==SDLK_k)
+                 {
+                     pos=hold(&holdedpiece,pos,&canhold,cola,render,textura);
+                 }
+                 if(evento.key.keysym.sym==SDLK_SPACE)
+                 {
+                     pos=hardfall(pos,matestado,empty);
+                     truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold);
+                 }
+
+
+                 pintapiece(pos,old,matestado,empty,render);
             }
 
 
@@ -95,10 +107,10 @@ int main(int argv, char** args)
          if(difftime(now,past)>=1)
          {
              old=pos;
-             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura);
+             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold);
              past=now;
 
-              pintapiece(pos,old,render);
+              pintapiece(pos,old,matestado,empty,render);
          }
      }
      printf("replay? 1 (for yes 0 for no)\n");
