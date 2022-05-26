@@ -445,6 +445,38 @@ pieza rot(pieza pis,char dir) //rota la pieza hacia la sireccion elegida
 
 }
 
+pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int empty)//ejecuta el giro de la pieza combinando canrotate y rot y pule erroes
+{
+    int aux;
+    for(aux= 0; aux< 2; aux++)
+        {
+            if(canrotate(matestado,10,20,pos,rotdir,empty)==1)
+                {
+                    pos=rot(pos,rotdir);
+                    aux++;
+                }
+            else
+                {
+                    if(canmove(matestado,10,20,pos,'r',empty)==1 && canmove(matestado,10,20,pos,'l',empty)==1)
+                        {
+                            pos.posx+=1;
+                            if(canrotate(matestado,10,20,pos,rotdir,empty)==0)
+                                pos.posx-=2;
+                            else if(canrotate(matestado,10,20,pos,rotdir,empty)==1 && aux== 1)
+                                pos=rot(pos,rotdir);
+                        }
+                    else
+                        {
+                            if(canmove(matestado,10,20,pos,'r',empty)==1)
+                                pos.posx+=1;
+                            else if(canmove(matestado,10,20,pos,'l',empty)==1)
+                                pos.posx-=1;
+                        }
+                }
+        }
+return pos;
+}
+
 int endgame(int mat[][20],int fil,int vasio) //comprueba si ha de terminar el juego
 {
     int comp=0,i;

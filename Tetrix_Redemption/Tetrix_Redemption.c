@@ -66,22 +66,18 @@ int main(int argv, char** args)
                          pos=mov(pos,movdir);
                      }
                  }
-                 if(evento.key.keysym.sym==SDLK_f)//rotación izqda si es posible
+                 if(evento.key.keysym.sym==SDLK_f)//rotación a la izqda
                  {
                      rotdir='l';
-                     if(canrotate(matestado,10,20,pos,rotdir,empty)==1)
-                     {
-                         pos=rot(pos,rotdir);
-                     }
+                     pos= giro(pos, matestado, 10, 20, rotdir, empty);
                  }
-                 if(evento.key.keysym.sym==SDLK_g || evento.key.keysym.sym==SDLK_UP || evento.key.keysym.sym==SDLK_w)//rotación dcha si es posible
+
+                 if(evento.key.keysym.sym==SDLK_g || evento.key.keysym.sym==SDLK_UP || evento.key.keysym.sym==SDLK_w)//rotación a la dcha
                  {
                      rotdir='r';
-                     if(canrotate(matestado,10,20,pos,rotdir,empty)==1)
-                     {
-                         pos=rot(pos,rotdir);
-                     }
+                     pos= giro(pos, matestado, 10, 20, rotdir, empty);
                  }
+
                  if(evento.key.keysym.sym==SDLK_s || evento.key.keysym.sym==SDLK_DOWN) // Caida rápida si es posible
                  {
                      truefall(matestado,matscreen,empty,&exit,

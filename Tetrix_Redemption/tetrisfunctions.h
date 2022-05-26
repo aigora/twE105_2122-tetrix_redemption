@@ -35,6 +35,7 @@ int canmove(int mat[][20],int fil,int col,pieza pis,int dir,int vasio);//comprue
 pieza mov(pieza pis,char dir);//mueve la pieza a la direccion elegida
 int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio);//comprueba que puede rotar la pieza a la dirección elegida
 pieza rot(pieza pis,char dir); // rota la pieza según la dirección elegida
+pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int empty);//ejecuta el giro de la pieza combinando canrotate y rot y corrige errores
 pieza hardfall(pieza pis,int mat [][20],int vasio);
 
 void linea(int mat[][20],int fil,int col,int vasio); //si hay una linea completa baja todo lo que haya arriba borrando la linea completa en el proceso
