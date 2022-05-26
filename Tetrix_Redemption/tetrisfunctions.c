@@ -456,20 +456,22 @@ int endgame(int mat[][20],int fil,int vasio) //comprueba si ha de terminar el ju
     return comp;
 }
 
-void linea(int mat[][20],int fil,int col,int vasio) //detecta y elimina lineas completas
+void linea(int mat[][20],int fil,int col,int vasio, int *p) //detecta y elimina lineas completas
 {
     int i,j,comp;
-
+    int n=0;
     for(i=0;i<col;i++) // mira lineas de arriba hacia abajo
     {
         comp=1;
         for(j=0;j<fil;j++)
             {
                 if(mat[j][i]==vasio) //si hay una linea que no tiene ningun hueco el comprobador no cambia
+                {
                     comp=0;
-            }
+                }
         if(comp==1) //si el comprobador no cambia la linea actual y las que tenga arriba serán sustituidas por la linea directamente superior
         {
+            n += 1;
             while(i>0)
             {
                 for(j=0;j<fil;j++)
@@ -480,8 +482,14 @@ void linea(int mat[][20],int fil,int col,int vasio) //detecta y elimina lineas c
             }
             comp=0; //pasa el comprobador a 0 de nuevo ya que pueden crearse hasta cuatro lineas en una jugada
         }
-    }
+            }
 
+    }
+    while(n<=4 && n>0)
+    {
+    *p += n*100;
+    n-=1 ;
+    }
 }
 
 void newframe(int mat[][20],int mats[][20],int fil,int col,int vasio,pieza pis,SDL_Renderer *render) //ejecuta en orden las funciones necesarias para actualizar la pantalla al estado del momento del juego
