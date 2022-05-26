@@ -9,6 +9,13 @@ typedef struct //entiendo la pieza como una pieza formada por cuatro bloques
 
 } pieza;
 
+typedef struct
+{
+    char nombre[4];
+    int puntuacion;
+}jugador;
+void highscore(jugador vec[])://funcion encargada de ordenar la puntuacion
+
 //para obtener las coordenadas de los bloques no centrales se suman las coordenadas relativas a las totales
 
 int menu();
