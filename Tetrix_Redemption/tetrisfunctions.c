@@ -863,4 +863,21 @@ pieza hardfall(pieza pis,int mat [][20],int vasio)
         return pis;
 }
 
+void highscore(jugador vec[])//ordena puntuación,vector de estructura para definir los jugadores
+{
+    int i,j;
+    jugador aux;
+    for(i=0;i<51;i++)//bucle for anidado
+    {
+        for(j=i;j<51;j++)
+        {
+            if(vec[i].puntuacion<vec[j].puntuacion)
+            {
+                aux=vec[i];
+                vec[i]=vec[j];
+                vec[j]=aux;
+            }
+        }
+    }
+}
 
