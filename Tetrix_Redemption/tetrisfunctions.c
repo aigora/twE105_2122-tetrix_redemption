@@ -4,8 +4,9 @@
 #include<stdlib.h>
 #include<SDL2/SDL.h>
 
-int menu(int exit)
+int menu()
 {
+    int exit=1;
     char menu;
     printf("Puntuación(p) \nControles(c) \nJugar(j)\n");
 
@@ -28,6 +29,7 @@ int menu(int exit)
             case 'j':
             case 'J':
                 exit = 0;
+                return exit;
                 break;
 
         }
@@ -229,9 +231,10 @@ int canfall(int matriz[][20],int fil,int col,pieza pise,int vasio) //comprobaci�
 
 }
 
-pieza newpiece(pieza pise) //genera una nueva pieza
+pieza newpiece() //genera una nueva pieza
 {
     int seed;
+    pieza pise;
 
     seed=rand() % 7 + 1; //genera un numero aleatorio entre 1 y 7, incluidos, ya que hay 7 posibles piezas
     //para cada numero se asignan las posiciones relativas que tendrá la pieza cuando aparezaca por pantalla, estan puestas para que quepa teniendo en cuenta el límite superior
@@ -511,4 +514,130 @@ void scene(SDL_Renderer *Render,SDL_Window *Ventana,SDL_Texture *Textura,char pa
                     SDL_RenderPresent( Render ); //Se actualiza el Render
             }
 }
+
+void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura)
+{
+    if(canfall(matestado,10,20,*pos,vasio)==1) // hacer la pieza caer si puede
+                         {
+                             *pos=fall(*pos);
+                         }
+                         else if (canfall(matestado,10,20,*pos,vasio)==0) // si no puede caer la pieza
+                         {
+                             piece2mat(matestado,*pos);  //la pieza pasa a la matriz de estado
+                             *pos=nextpiece(cola,4,render,textura); //se genera una nueva pieza
+                             linea(matestado,10,20,vasio);  //se quitan las lineas que haya podido crear la nueva pieza
+                             newframe(matestado,matscreen,10,20,vasio,*pos,render);
+                             *exit=endgame(matestado,10,vasio);//se comprueba que la pieza no ha podido acabar la partida
+                             *old=*pos;
+                         }
+}
+
+pieza nextpiece(pieza cola[],int tam,SDL_Renderer *render,SDL_Texture *textura)
+{
+    pieza pos;
+    int i;
+
+    pos=cola[0];
+
+    for(i=0;i<(tam-1);i+=1)
+    {
+        cola[i]=cola[i+1];
+    }
+    cola[tam-1]=newpiece();
+
+    rendercola(cola,tam,render,textura);
+
+    return pos;
+}
+
+void rendercola(pieza cola[], int tam, SDL_Renderer *render,SDL_Texture *textura)
+{
+    int i,j,x[4],y[4],s=20;
+    SDL_Rect cl;
+    cl.w=80;
+    cl.h=80;
+    cl.x=1300;
+
+
+    SDL_SetRenderDrawColor( render, 0xFF, 0xFF, 0xFF, 0xFF );
+
+    for(i=0;i<tam;i++)
+    {
+        if(cola[i].type=='i')
+        {
+        char camino[50]=("sprites/i.bmp");
+        SDL_Surface *SupCarg = SDL_LoadBMP(camino);
+
+        cl.y=200+100*i;
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(cola[i].type=='c')
+        {
+        char camino[50]=("sprites/c.bmp");
+        SDL_Surface *SupCarg = SDL_LoadBMP(camino);
+
+        cl.y=200+100*i;
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(cola[i].type=='t')
+        {
+        char camino[50]=("sprites/t.bmp");
+        SDL_Surface *SupCarg = SDL_LoadBMP(camino);
+
+        cl.y=200+100*i;
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(cola[i].type=='s')
+        {
+        char camino[50]=("sprites/s.bmp");
+        SDL_Surface *SupCarg = SDL_LoadBMP(camino);
+
+        cl.y=200+100*i;
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+        if(cola[i].type=='z')
+        {
+        char camino[50]=("sprites/z.bmp");
+        SDL_Surface *SupCarg = SDL_LoadBMP(camino);
+
+        cl.y=200+100*i;
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+
+
+        if(cola[i].type=='l')
+        {
+        char camino[50]=("sprites/l.bmp");
+        SDL_Surface *SupCarg = SDL_LoadBMP(camino);
+
+        cl.y=200+100*i;
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+
+        if(cola[i].type=='j')
+        {
+        char camino[50]=("sprites/j.bmp");
+
+        SDL_Surface *SupCarg = SDL_LoadBMP(camino);
+        cl.y=200+100*i;
+        textura=SDL_CreateTextureFromSurface(render,SupCarg);
+        SDL_RenderCopy(render,textura,NULL,&cl);
+        SDL_RenderPresent(render);
+        }
+    }
+}
+
+
 

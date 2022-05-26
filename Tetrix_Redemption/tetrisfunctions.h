@@ -11,7 +11,7 @@ typedef struct //entiendo la pieza como una pieza formada por cuatro bloques
 
 //para obtener las coordenadas de los bloques no centrales se suman las coordenadas relativas a las totales
 
-int menu(int exit);
+int menu();
 
 void pintamatr(int matriz[][20],int tamfil,int tamcol,SDL_Renderer *render); //sacará una matriz por pantalla
 void vacia(int matriz [][20],int fil, int col,int vasio); // vacia una matriz
@@ -21,7 +21,7 @@ void newframe(int mat[][20],int mats[][20],int fil,int col,int vasio,pieza pis,S
 void scene(SDL_Renderer *Render,SDL_Window *Ventana,SDL_Texture *Textura,char path[]); //Para pintar fondos y escenarios
 void pintapiece(pieza curr,pieza old,SDL_Renderer *render);//Saca la pieza con la que se está jugando por pantalla
 
-pieza newpiece(pieza pise); // generación de una nueva pieza
+pieza newpiece(); // generación de una nueva pieza
 int canfall(int matriz[][20],int fil,int col,pieza pise,int vasio); //comprueba que la pieza puede caer
 pieza fall(pieza pis); //hace caer la pieza
 int canmove(int mat[][20],int fil,int col,pieza pis,int dir,int vasio);//comprueba que puede moverse la pieza a la direccion elegida
@@ -31,4 +31,8 @@ pieza rot(pieza pis,char dir); // rota la pieza según la dirección elegida
 
 void linea(int mat[][20],int fil,int col,int vasio); //si hay una linea completa baja todo lo que haya arriba borrando la linea completa en el proceso
 int endgame(int mat[][20],int fil, int vasio); //si hay algún bloque en la última linea acaba la partida
+
+void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura);
+pieza nextpiece(pieza cola[],int tam,SDL_Renderer *render,SDL_Texture *textura);
+void rendercola(pieza cola[], int tam, SDL_Renderer *render,SDL_Texture *textura);
 

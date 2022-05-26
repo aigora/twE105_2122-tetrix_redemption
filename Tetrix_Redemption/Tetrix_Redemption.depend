@@ -14,7 +14,7 @@
 	<time.h>
 	<stdlib.h>
 
-1653409062 source:c:\users\ariel carnés\documents\github\twe105_2122-tetrix_redemption\tetrix_redemption\tetrisfunctions.c
+1653526002 source:c:\users\ariel carnés\documents\github\twe105_2122-tetrix_redemption\tetrix_redemption\tetrisfunctions.c
 	<stdio.h>
 	"tetrisfunctions.h"
 	<time.h>
@@ -69,7 +69,7 @@
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\_mingw_print_pop.h
 
-1653408364 c:\users\ariel carnés\documents\github\twe105_2122-tetrix_redemption\tetrix_redemption\tetrisfunctions.h
+1653526002 c:\users\ariel carnés\documents\github\twe105_2122-tetrix_redemption\tetrix_redemption\tetrisfunctions.h
 	<stdio.h>
 	<SDL2/SDL.h>
 
@@ -577,7 +577,7 @@
 1526093420 d:\codeblocks\mingw\x86_64-w64-mingw32\include\pthread_time.h
 	<sys/timeb.h>
 
-1653409102 source:c:\users\ariel carnés\documents\github\twe105_2122-tetrix_redemption\tetrix_redemption\tetrix_redemption.c
+1653525943 source:c:\users\ariel carnés\documents\github\twe105_2122-tetrix_redemption\tetrix_redemption\tetrix_redemption.c
 	<stdio.h>
 	"tetrisfunctions.h"
 	<time.h>

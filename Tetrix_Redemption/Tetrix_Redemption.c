@@ -8,28 +8,33 @@
 int main(int argv, char** args)
 {
     int matestado[10][20],matscreen[10][20];//matestado guarda los bloques ya colocados y matscrren se usará para componer los bloques ya colocados y la posición de la pieza
-    pieza pos,old;
-    int empty=' ',rotdir,movdir,exit=0;
+    pieza pos,old,cola[4];
+    int empty=' ',rotdir,movdir,exit=0,i;
     int replay=1;
     time_t past, now;
     SDL_Event evento;
     SDL_Window *ventana;
     SDL_Renderer *render;
-    SDL_Texture *textura;
+    SDL_Texture *textura=NULL;
 
-    exit = menu(exit);
+	exit=menu();
 
     srand(time(NULL));
     SDL_Init(SDL_INIT_EVERYTHING);
     ventana = SDL_CreateWindow( "Tetrix.exe", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN );
     render= SDL_CreateRenderer( ventana, -1, SDL_RENDERER_ACCELERATED );
 
+
     scene(render,ventana,textura,"sprites/Tetrix_Background.bmp");
 
     do{
      vacia(matestado,10,20,empty); // configuración antes de la partida
      vacia(matscreen,10,20,empty);
-     pos=newpiece(pos);
+     for(i=0;i<4;i+=1)
+     {
+         cola[i]=newpiece();
+     }
+     pos=nextpiece(cola,4,render,textura);
      newframe(matestado,matscreen,10,20,empty,pos,render);
      past=time(NULL);
 
@@ -78,19 +83,8 @@ int main(int argv, char** args)
                  }
                  if(evento.key.keysym.sym==SDLK_s || evento.key.keysym.sym==SDLK_DOWN) // Caida rápida si es posible
                  {
-                     if(canfall(matestado,10,20,pos,empty)==1) // hacer la pieza caer si puede
-                         {
-                             pos=fall(pos);
-                         }
-                         else if (canfall(matestado,10,20,pos,empty)==0) // si no puede caer la pieza
-                         {
-                             piece2mat(matestado,pos);  //la pieza pasa a la matriz de estado
-                             pos=newpiece(pos);  //se genera una nueva pieza
-                             linea(matestado,10,20,empty);  //se quitan las lineas que haya podido crear la nueva pieza
-                             newframe(matestado,matscreen,10,20,empty,pos,render);
-                             exit=endgame(matestado,10,empty);//se comprueba que la pieza no ha podido acabar la partida
-                             old=pos;
-                         }
+                     truefall(matestado,matscreen,empty,&exit,
+                              &old,&pos,cola,render,textura);
                  }
                  pintapiece(pos,old,render);
             }
@@ -101,21 +95,8 @@ int main(int argv, char** args)
          if(difftime(now,past)>=1)
          {
              old=pos;
-             if(canfall(matestado,10,20,pos,empty)==1) // hacer la pieza caer si puede
-             {
-                 pos=fall(pos);
-             }
-             else if (canfall(matestado,10,20,pos,empty)==0) // si no puede caer la pieza
-             {
-                 piece2mat(matestado,pos);  //la pieza pasa a la matriz de estado
-                 pos=newpiece(pos);  //se genera una nueva pieza
-                 linea(matestado,10,20,empty);  //se quitan las lineas que haya podido crear la nueva pieza
-                 newframe(matestado,matscreen,10,20,empty,pos,render);
-                 exit=endgame(matestado,10,empty);//se comprueba que la pieza no ha podido acabar la partida
-                 old=pos;
-             }
+             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura);
              past=now;
-
 
               pintapiece(pos,old,render);
          }
