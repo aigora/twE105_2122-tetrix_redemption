@@ -7,9 +7,10 @@
 
 int main(int argv, char** args)
 {
+    char guardarpuntuacion;
     int matestado[10][20],matscreen[10][20];//matestado guarda los bloques ya colocados y matscrren se usará para componer los bloques ya colocados y la posición de la pieza
     pieza pos,old,cola[4],holdedpiece;
-    int empty=' ',rotdir,movdir,exit=0,i,canhold=1,puntuacion;
+    int empty=' ',rotdir,movdir,exit=0,canhold=1,cargar=0,puntuacion;
     int replay=1;
     time_t past, now;
     SDL_Event evento;
@@ -17,7 +18,7 @@ int main(int argv, char** args)
     SDL_Renderer *render;
     SDL_Texture *textura=NULL;
 
-	exit=menu();
+	exit=menu(&cargar,&replay);
 
     srand(time(NULL));
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -27,18 +28,24 @@ int main(int argv, char** args)
 
     scene(render,ventana,textura,"sprites/Tetrix_Background.bmp");
 
-    do{
-     vacia(matestado,10,20,empty); // configuración antes de la partida
-     vacia(matscreen,10,20,empty);
-     for(i=0;i<4;i+=1)
-     {
-         cola[i]=newpiece();
-     }
-     pos=nextpiece(cola,4,render,textura);
-     holdedpiece.type='f';
-     newframe(matestado,matscreen,10,20,empty,pos,render);
-     past=time(NULL);
+    while(replay!=0){
+            if (cargar!=1)
+            {
+                iniciarpartida(matestado,matscreen,empty,cola,&pos,&holdedpiece,render,textura);
+                puntuacion=0;
+            }
+            if(cargar==1)
+            {
+                cargarpartida(matestado,&pos,&holdedpiece,cola,&puntuacion);
+                cargar=0;
+            }
+            canhold=0;
+            pos=hold(&holdedpiece,pos,&canhold,cola,render,textura);
+            newframe(matestado,matscreen,10,20,empty,pos,render);
+            rendercola(cola,4,render,textura);
 
+
+     past=time(NULL);
      while(exit==0)//bucle principal del juego
      {
          now=time(NULL);
@@ -66,21 +73,17 @@ int main(int argv, char** args)
                          pos=mov(pos,movdir);
                      }
                  }
-                 if(evento.key.keysym.sym==SDLK_f)//rotación a la izqda
+                 if(evento.key.keysym.sym==SDLK_f)//rotación izqda si es posible
                  {
-                     rotdir='l';
-                     pos= giro(pos, matestado, 10, 20, rotdir, empty);
+                    pos= giro(pos, matestado, 10, 20, 'l', empty);
                  }
-
-                 if(evento.key.keysym.sym==SDLK_g || evento.key.keysym.sym==SDLK_UP || evento.key.keysym.sym==SDLK_w)//rotación a la dcha
+                 if(evento.key.keysym.sym==SDLK_g || evento.key.keysym.sym==SDLK_UP || evento.key.keysym.sym==SDLK_w)//rotación dcha si es posible
                  {
-                     rotdir='r';
-                     pos= giro(pos, matestado, 10, 20, rotdir, empty);
+                     pos= giro(pos,matestado,10,20,'r',empty);
                  }
-
                  if(evento.key.keysym.sym==SDLK_s || evento.key.keysym.sym==SDLK_DOWN) // Caida rápida si es posible
                  {
-                     truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,puntuacion);
+                     truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,&puntuacion);
                  }
                  if(evento.key.keysym.sym==SDLK_c || evento.key.keysym.sym==SDLK_k)
                  {
@@ -89,7 +92,12 @@ int main(int argv, char** args)
                  if(evento.key.keysym.sym==SDLK_SPACE)
                  {
                      pos=hardfall(pos,matestado,empty);
-                     truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,puntuacion);
+                     truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,&puntuacion);
+                 }
+                 if(evento.key.keysym.sym==SDLK_ESCAPE)
+                 {
+                     exit=pausa(matestado,pos,holdedpiece,cola,puntuacion);
+                     past=now; // para evitar un salto repentino tras la pausa
                  }
 
 
@@ -102,20 +110,34 @@ int main(int argv, char** args)
          if(difftime(now,past)>=1)
          {
              old=pos;
-             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,puntuacion);
+             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,&puntuacion);
              past=now;
 
               pintapiece(pos,old,matestado,empty,render);
          }
      }
-     printf("replay? 1 (for yes 0 for no)\n");
+     while(exit==3)
+     {
+         printf("Desea guardar la puntuacion? (y) (n) \n Su puntuacion: %i \n",puntuacion);
+         scanf("%c%c",&guardarpuntuacion,&guardarpuntuacion);//al dale al enterdetecta un segudo char y hace dos veces el ciclo
+         if(guardarpuntuacion=='y')
+         {
+             appendscore(puntuacion);
+             exit=1;
+         }
+         if(guardarpuntuacion=='n')
+         {
+             exit=1;
+         }
+     }
+     printf("Nueva partida? 1 (si) 0 (no)\n");
      scanf("%i",&replay);
      if (replay!=0)
      {
          exit=0;
      }
 
-    }while(replay!=0);
+    }
 
     return 0;
 }

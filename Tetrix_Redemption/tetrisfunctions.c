@@ -4,37 +4,73 @@
 #include<stdlib.h>
 #include<SDL2/SDL.h>
 
-int menu()
+int menu(int *cargar,int *replay)
 {
     int exit=1;
     char menu;
-    printf("Puntuación(p) \nControles(c) \nJugar(j)\n");
+
+
+    printf("Puntuacion(p) \nControles(c) \nNueva Partida (n)\nCargar Partida(l) \nSalir (s)\n");
 
     while(exit=!0)
     {
-        scanf("%c", &menu);
+        scanf("%c",&menu);
 
         switch(menu)
         {
             case 'p':
             case 'P':
-                //abre fichero y muestra la puntuación mas alta
-                break;
+                {
+                    //abre fichero y muestra la puntuación mas alta
 
+
+                    jugador vec[51];
+                    int tam=0;
+                    int i;
+
+                    FILE *punt;
+
+                    punt = fopen("Highscores.txt","r");
+
+                    tam=0;
+                    i=0;
+                    while(fscanf(punt,"%c;%c;%c;%i\n",&vec[i].name1,&vec[i].name2,&vec[i].name3,&vec[i].puntuacion)!=EOF)
+                    {
+                        tam+=1;
+                        i+=1;
+                    }
+                    printf("\n\nHIGHSCORE\n");
+                    for(i=0;i<tam;i+=1)
+                    {
+                        printf("%i: %c%c%c\t%ipts\n",i+1,vec[i].name1,vec[i].name2,vec[i].name3,vec[i].puntuacion);
+                    }
+                    printf("\n\nPuntuacion(p) \nControles(c) \nNueva Partida (n)\nCargar Partida(l) \n");
+
+                    fclose(punt);
+                    break;
+                }
             case 'c':
             case 'C':
-                       printf("Para mover la pieza en horizontal utilizar las flechas laterales,'a' o 'd'\n"
-                       "para rotar a la derecha la flecha superior o 'g'y para rotar a la izquierda 'f'\n"
-                       "para bajar utilizar la flecha inferior o 's' y para bajar instantaneo 'espacio'\n"
-                       "para guardar pieza utilizar 'k'\n");
-            break;
+                printf("Para mover la pieza en horizontal utilizar las flechas laterales, para rotar utilizar la flecha superior, y para bajar utilizar la inferior\n");
+                break;
 
-            case 'j':
-            case 'J':
+            case 'n':
+            case 'N':
                 exit = 0;
                 return exit;
                 break;
-
+            case 'l':
+            case 'L':
+                exit = 0;
+                *cargar=1;
+                return exit;
+                break;
+            case 's':
+            case 'S':
+                {
+                    *replay=0;
+                    return 1;
+                }
         }
     }
     return exit;
@@ -385,7 +421,7 @@ int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio) // com
     int x[4],y[4],i;
     int comp=1;
 
-      // las coordenadas del bloque central no varían en una rotación, solo varían las relativas
+      // las coordenadas del bloque central no varían en una rotacion, solo varían las relativas
         x[0]=pis.posx;
         y[0]=pis.posy;
 
@@ -409,7 +445,7 @@ int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio) // com
     {
         comp=0;
     }
-    for(i=0;i<4;i++) //comprueba que las coordenadas resultantes de una rotación en la dirección elegida estan vacías y no superan los límites de la zona de juego
+    for(i=0;i<4;i++) //comprueba que las coordenadas resultantes de una rotación en la dirección elegida estan vacias y no superan los limites de la zona de juego
     {
         if((mat[x[i]][y[i]]!=vasio)||(x[i]>=fil)||(x[i]<0)||(y[i]>=col))
             comp=0;
@@ -417,7 +453,7 @@ int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio) // com
     return comp;
 }
 
-pieza rot(pieza pis,char dir) //rota la pieza hacia la dirección elegida
+pieza rot(pieza pis,char dir) //rota la pieza hacia la sireccion elegida
 {
     int i, oldx[3], oldy[3]; //en este caso se guardan las coordenadas relativas para que al irlas cambiando no den error
 
@@ -448,45 +484,13 @@ pieza rot(pieza pis,char dir) //rota la pieza hacia la dirección elegida
 
 }
 
-pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int vasio)//en caso de poder girar la pieza si esta se desplazará, hace ambas acciones
-{
-    int aux;
-    for(aux= 0; aux< 2; aux++)
-        {
-            if(canrotate(matestado,10,20,pos,rotdir,vasio)==1)
-                {
-                    pos=rot(pos,rotdir);
-                    aux++;
-                }
-            else
-                {
-                    if(canmove(matestado,10,20,pos,'r',vasio)==1 && canmove(matestado,10,20,pos,'l',vasio)==1)
-                        {
-                            pos.posx+=1;
-                            if(canrotate(matestado,10,20,pos,rotdir,vasio)==0)
-                                pos.posx-=2;
-                            else if(canrotate(matestado,10,20,pos,rotdir,vasio)==1 && aux== 1)
-                                pos=rot(pos,rotdir);
-                        }
-                    else
-                        {
-                            if(canmove(matestado,10,20,pos,'r',vasio)==1)
-                                pos.posx+=1;
-                            else if(canmove(matestado,10,20,pos,'l',vasio)==1)
-                                pos.posx-=1;
-                        }
-                }
-        }
-return pos;
-}
-
 int endgame(int mat[][20],int fil,int vasio) //comprueba si ha de terminar el juego
 {
     int comp=0,i;
     for(i=0;i<fil;i++) //si la linea mas alta tiene algún bloque el comprobador cambia a que la partida debería terminar
     {
         if(mat[i][0]!=vasio)
-            comp=1;
+            comp=3;
     }
     return comp;
 }
@@ -520,7 +524,7 @@ void linea(int mat[][20],int fil,int col,int vasio, int *p) //detecta y elimina 
         }
 
     }
-    while(n<=4 && n>0)
+    while(n>0)
     {
     *p += n*100;
     n-=1 ;
@@ -560,7 +564,7 @@ void scene(SDL_Renderer *Render,SDL_Window *Ventana,SDL_Texture *Textura,char pa
             }
 }
 
-void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura,int *canhold,int punt)
+void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura,int *canhold,int *p)
 {
     if(canfall(matestado,10,20,*pos,vasio)==1) // hacer la pieza caer si puede
                          {
@@ -570,7 +574,7 @@ void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza 
                          {
                              piece2mat(matestado,*pos);  //la pieza pasa a la matriz de estado
                              *pos=nextpiece(cola,4,render,textura); //se genera una nueva pieza
-                             linea(matestado,10,20,vasio,&punt);  //se quitan las lineas que haya podido crear la nueva pieza
+                             linea(matestado,10,20,vasio,p);  //se quitan las lineas que haya podido crear la nueva pieza
                              newframe(matestado,matscreen,10,20,vasio,*pos,render);
                              *exit=endgame(matestado,10,vasio);//se comprueba que la pieza no ha podido acabar la partida
                              *old=*pos;
@@ -706,8 +710,10 @@ pieza hold(pieza *hold,pieza curr,int *canhold,pieza cola[],SDL_Renderer *render
             aux=curr;
             curr=*hold;
             *hold=aux;
-
         }
+        curr.posx=4;
+        curr.posy=2;
+
         *canhold=0;
     }
 
@@ -898,13 +904,175 @@ pieza hardfall(pieza pis,int mat [][20],int vasio)
         return pis;
 }
 
-void highscore(jugador vec[])//ordena puntuación,vector de estructura para definir los jugadores
+int pausa(int mat[][20],pieza pos,pieza hold,pieza cola[],int pts)
 {
+    int salir=0,i,j;
+    char opt;
+    pieza vec[6];
+
+    printf("MENU DE PAUSA \n Continuar (c) \n Guardar (g) \n Puntuacion (p) \n Salir (s) \n");
+    while(salir==0)
+    {
+        scanf("%c%c",&opt,&opt);//al dale al enter detecta un segudo char y hace dos veces el ciclo
+        if(opt=='c')
+        {
+            return 0;
+        }
+        if(opt=='s')
+        {
+            return 1;
+        }
+        if(opt=='g')
+        {
+            FILE *matriz,*pieza,*points;
+            matriz = fopen("Guardado/Matriz.csv","w");
+            pieza = fopen("Guardado/Pieza.txt","w");
+            points = fopen("Guardado/Pts.txt","w");
+
+            for(i=0;i<4;i+=1)
+            {
+                vec[i]=cola[i];
+            }
+            vec[4]=hold;
+            vec[5]=pos;
+
+            for(i=0;i<20;i+=1)
+            {
+                fprintf(matriz,"%i,%i,%i,%i,%i,%i,%i,%i,%i,%i\n",mat[0][i],mat[1][i],mat[2][i],mat[3][i],mat[4][i],mat[5][i],mat[6][i],mat[7][i],mat[8][i],mat[9][i]);
+            }
+            for(j=0;j<6;j+=1)
+            {
+                fprintf(pieza,"%i;%i;",vec[j].posx,vec[j].posy);
+                for(i=0;i<3;i+=1)
+                {
+                    fprintf(pieza,"%i;%i;",vec[j].rposx[i],vec[j].rposy[i]);
+                }
+                fprintf(pieza,"%i:\n",vec[j].type);
+            }
+
+            fprintf(points,"%i",pts);
+
+            fclose(matriz);
+            fclose(pieza);
+            fclose(points);
+            printf("Partida guardada con exito \n \n \n");
+        }
+        if(opt=='p' || opt=='P')
+        {
+            jugador vec[51];
+            int tam=0;
+            int i;
+
+            FILE *punt;
+
+            punt = fopen("Highscores.txt","r");
+
+            tam=0;
+            i=0;
+            while(fscanf(punt,"%c;%c;%c;%i\n",&vec[i].name1,&vec[i].name2,&vec[i].name3,&vec[i].puntuacion)!=EOF)
+            {
+                tam+=1;
+                i+=1;
+            }
+            printf("\n \n Puntuacion actual: %ipts\n\n HIGHSCORE\n",pts);
+            for(i=0;i<tam;i+=1)
+            {
+                printf("%i: %c%c%c\t%ipts\n\n\n",i+1,vec[i].name1,vec[i].name2,vec[i].name3,vec[i].puntuacion);
+            }
+
+            fclose(punt);
+        }
+        printf("MENU DE PAUSA \n Continuar (c) \n Guardar (g) \n Puntuacion (p) \n Salir (s) \n");
+    }
+}
+
+void cargarpartida(int mat[][20],pieza *pos,pieza *hold,pieza cola[],int *pts)
+{
+    FILE *matriz,*piece,*points;
+    int i,j;
+    pieza vec[6];
+
+    matriz = fopen("Guardado/Matriz.csv","r");
+    piece = fopen("Guardado/Pieza.txt","r");
+    points = fopen("Guardado/Pts.txt","r");
+
+    if(matriz==NULL || piece==NULL || points==NULL)
+    {
+        printf("Error: No hay partidas guardadas");
+    }
+
+    for(i=0;i<20;i+=1)
+    {
+        fscanf(matriz,"%i,%i,%i,%i,%i,%i,%i,%i,%i,%i\n",&mat[0][i],&mat[1][i],&mat[2][i],&mat[3][i],&mat[4][i],&mat[5][i],&mat[6][i],&mat[7][i],&mat[8][i],&mat[9][i]);
+    }
+    for(j=0;j<6;j+=1)
+    {
+        fscanf(piece,"%i;%i;",&vec[j].posx,&vec[j].posy);
+        for(i=0;i<3;i+=1)
+        {
+            fscanf(piece,"%i;%i;",&vec[j].rposx[i],&vec[j].rposy[i]);
+        }
+        fscanf(piece,"%i:\n",&vec[j].type);
+    }
+
+    for(i=0;i<4;i++)
+    {
+        cola[i]=vec[i];
+    }
+    *hold=vec[4];
+    *pos=vec[5];
+    hold->posx=4;
+    hold->posy=2;
+
+    fscanf(points,"%i",pts);
+
+    fclose(matriz);
+    fclose(piece);
+    fclose(points);
+}
+
+void iniciarpartida(int matestado [][20],int matscreen[][20],int vasio,pieza cola[],pieza *pos,pieza *holdedpiece,SDL_Renderer *render,SDL_Texture *textura)
+{
+    int i;
+
+    vacia(matestado,10,20,vasio); // configuración antes de la partida
+     vacia(matscreen,10,20,vasio);
+     for(i=0;i<4;i+=1)
+     {
+         cola[i]=newpiece();
+     }
+     *pos=nextpiece(cola,4,render,textura);
+     holdedpiece->type='f';
+     newframe(matestado,matscreen,10,20,vasio,*pos,render);
+}
+
+void ordenahighscore()//ordena puntuación,vector de estructura para definir los jugadores
+{
+    jugador vec[51];
+    int tam=0;
     int i,j;
     jugador aux;
-    for(i=0;i<51;i++)//bucle for anidado
+
+    FILE *punt;
+
+    punt = fopen("Highscores.txt","r");
+
+    tam=0;
+    i=0;
+    while(fscanf(punt,"%c;%c;%c;%i\n",&vec[i].name1,&vec[i].name2,&vec[i].name3,&vec[i].puntuacion)!=EOF)
     {
-        for(j=i;j<51;j++)
+        tam+=1;
+        i+=1;
+    }
+
+
+    fclose(punt);
+
+
+
+    for(i=0;i<tam;i++)//bucle for anidado
+    {
+        for(j=i;j<tam;j++)
         {
             if(vec[i].puntuacion<vec[j].puntuacion)
             {
@@ -914,5 +1082,69 @@ void highscore(jugador vec[])//ordena puntuación,vector de estructura para defi
             }
         }
     }
+
+    if(tam>50)
+    {
+        tam=50;
+    }
+
+    FILE *pont;
+
+    pont = fopen("Highscores.txt","w");
+
+    for(i=0;i<tam;i+=1)
+    {
+        fprintf(pont,"%c;%c;%c;%i\n",vec[i].name1,vec[i].name2,vec[i].name3,vec[i].puntuacion);
+    }
+
+    fclose(pont);
+}
+
+void appendscore(int punt)
+{
+    char name[4];
+
+    printf("Escriba sus tres iniciales \n");
+    scanf("%s",&name);
+
+    FILE *scores;
+
+    scores = fopen("Highscores.txt","a");
+    fprintf(scores,"%c;%c;%c;%i\n",name[0],name[1],name[2],punt);
+    fclose(scores);
+
+    ordenahighscore();
+}
+
+pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int vasio)//ejecuta el giro de la pieza combinando canrotate y rot y pule erroes
+{
+    int aux;
+    for(aux= 0; aux< 2; aux++)
+        {
+            if(canrotate(matestado,10,20,pos,rotdir,vasio)==1)
+                {
+                    pos=rot(pos,rotdir);
+                    aux++;
+                }
+            else
+                {
+                    if(canmove(matestado,10,20,pos,'r',vasio)==1 && canmove(matestado,10,20,pos,'l',vasio)==1)
+                        {
+                            pos.posx+=1;
+                            if(canrotate(matestado,10,20,pos,rotdir,vasio)==0)
+                                pos.posx-=2;
+                            else if(canrotate(matestado,10,20,pos,rotdir,vasio)==1 && aux== 1)
+                                pos=rot(pos,rotdir);
+                        }
+                    else
+                        {
+                            if(canmove(matestado,10,20,pos,'r',vasio)==1)
+                                pos.posx+=1;
+                            else if(canmove(matestado,10,20,pos,'l',vasio)==1)
+                                pos.posx-=1;
+                        }
+                }
+        }
+return pos;
 }
 
