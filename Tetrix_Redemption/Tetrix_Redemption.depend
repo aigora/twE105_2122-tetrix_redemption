@@ -6,6 +6,8 @@
 	<stdlib.h>
 	<SDL2/SDL.h>
 
+1653525943 h>
+
 1653683101 d:\codeblocks\tetrix_redemption\tetrisfunctions.h
 	<stdio.h>
 	<SDL2/SDL.h>
@@ -32,8 +34,12 @@
 	<sec_api/stdio_s.h>
 	<_mingw_print_pop.h>
 
+1526093414 int_pop.h>
+
 1526093416 d:\codeblocks\mingw\x86_64-w64-mingw32\include\crtdefs.h
 	<_mingw.h>
+
+1526093414 
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\_mingw.h
 	"_mingw_mac.h"
@@ -42,6 +48,8 @@
 	<vadefs.h>
 	"sdks/_mingw_directx.h"
 	"sdks/_mingw_ddk.h"
+
+1526093414 gw_ddk.h"
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\_mingw_mac.h
 
@@ -52,6 +60,8 @@
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\stddef.h
 	<crtdefs.h>
+
+1526093414 >
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\vadefs.h
 	<_mingw.h>
@@ -69,6 +79,8 @@
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sec_api\stdio_s.h
 	<stdio.h>
+
+1526093414 
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\_mingw_print_pop.h
 
@@ -112,6 +124,8 @@
 	"begin_code.h"
 	"close_code.h"
 
+1608544088 e.h"
+
 1608544088 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sdl2\sdl_main.h
 	"SDL_stdinc.h"
 	"begin_code.h"
@@ -150,6 +164,8 @@
 	"SDL_platform.h"
 	<sdkddkver.h>
 
+1526093420 .h>
+
 1608544088 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sdl2\sdl_platform.h
 	"AvailabilityMacros.h"
 	"TargetConditionals.h"
@@ -169,6 +185,8 @@
 	<crtdefs.h>
 	<_mingw_off_t.h>
 
+1526093414 f_t.h>
+
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\stdlib.h
 	<crtdefs.h>
 	<limits.h>
@@ -187,6 +205,8 @@
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\stdarg.h
 	<_mingw_stdarg.h>
 
+1526093414 darg.h>
+
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\_mingw_stdarg.h
 	<vadefs.h>
 
@@ -196,6 +216,8 @@
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\string.h
 	<crtdefs.h>
 	<sec_api/string_s.h>
+
+1526093414 tring_s.h>
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sec_api\string_s.h
 	<string.h>
@@ -248,6 +270,8 @@
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\signal.h
 	<crtdefs.h>
 	<pthread_signal.h>
+
+1526093414 ignal.h>
 
 1526093420 d:\codeblocks\mingw\x86_64-w64-mingw32\include\pthread_signal.h
 
@@ -358,6 +382,8 @@
 	<intrin.h>
 	<psdk_inc/intrin-impl.h>
 
+1526093414 intrin-impl.h>
+
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\errno.h
 	<crtdefs.h>
 
@@ -422,8 +448,12 @@
 	"SDL_stdinc.h"
 	"SDL_scancode.h"
 
+1608544088 ode.h"
+
 1608544088 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sdl2\sdl_scancode.h
 	"SDL_stdinc.h"
+
+1608544088 c.h"
 
 1608544088 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sdl2\sdl_mouse.h
 	"SDL_stdinc.h"
@@ -456,6 +486,8 @@
 1608544088 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sdl2\sdl_quit.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
+
+1608544088 .h"
 
 1608544088 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sdl2\sdl_gesture.h
 	"SDL_stdinc.h"
@@ -568,11 +600,15 @@
 	<sys/timeb.h>
 	<pthread_time.h>
 
+1526093414 ime.h>
+
 1526093416 d:\codeblocks\mingw\x86_64-w64-mingw32\include\_timeval.h
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sys\timeb.h
 	<crtdefs.h>
 	<sec_api/sys/timeb_s.h>
+
+1526093414 ys/timeb_s.h>
 
 1526093414 d:\codeblocks\mingw\x86_64-w64-mingw32\include\sec_api\sys\timeb_s.h
 	<sys/timeb.h>
@@ -581,6 +617,24 @@
 	<sys/timeb.h>
 
 1653525943 source:c:\users\ariel carnés\documents\github\twe105_2122-tetrix_redemption\tetrix_redemption\tetrix_redemption.c
+	<stdio.h>
+	"tetrisfunctions.h"
+	<time.h>
+	<stdlib.h>
+	<SDL2/SDL.h>
+
+1653686087 source:/Users/jbermejo/Desktop/twE105_2122-tetrix_redemption/Tetrix_Redemption/tetrisfunctions.c
+	<stdio.h>
+	"tetrisfunctions.h"
+	<time.h>
+	<stdlib.h>
+	<SDL2/SDL.h>
+
+1653685800 /Users/jbermejo/Desktop/twE105_2122-tetrix_redemption/Tetrix_Redemption/tetrisfunctions.h
+	<stdio.h>
+	<SDL2/SDL.h>
+
+1653685800 source:/Users/jbermejo/Desktop/twE105_2122-tetrix_redemption/Tetrix_Redemption/Tetrix_Redemption.c
 	<stdio.h>
 	"tetrisfunctions.h"
 	<time.h>
