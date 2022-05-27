@@ -1,6 +1,6 @@
 # Tetrix
 
-Tetris el clásico juego de colocar piezas para llenar filas
+Tetris, el clásico juego de colocar piezas para llenar filas
 
 ## Integrantes del equipo
 
@@ -12,4 +12,8 @@ Tetris el clásico juego de colocar piezas para llenar filas
 
 ## Objetivos del trabajo
 
-[Lista de los objetivos que se persiguen con el trabajo propuesto.]EStoy escribiendo desde Rama Prueba
+El objetivo final es hacer de este proyecto un juego arcade lo más fiel posible al original.
+Para lograrlo hemos perseguido objetivos como:
+.Menu con funciones básicas
+.Sistema de puntuación con guardado de las más altas
+.Juego totalmente funciónal, entretenido y atractivo
