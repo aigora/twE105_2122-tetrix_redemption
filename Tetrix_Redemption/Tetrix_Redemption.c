@@ -9,7 +9,7 @@ int main(int argv, char** args)
 {
     int matestado[10][20],matscreen[10][20];//matestado guarda los bloques ya colocados y matscrren se usará para componer los bloques ya colocados y la posición de la pieza
     pieza pos,old,cola[4],holdedpiece;
-    int empty=' ',rotdir,movdir,exit=0,i,canhold=1;
+    int empty=' ',rotdir,movdir,exit=0,i,canhold=1,puntuacion;
     int replay=1;
     time_t past, now;
     SDL_Event evento;
@@ -80,8 +80,7 @@ int main(int argv, char** args)
 
                  if(evento.key.keysym.sym==SDLK_s || evento.key.keysym.sym==SDLK_DOWN) // Caida rápida si es posible
                  {
-                     truefall(matestado,matscreen,empty,&exit,
-                              &old,&pos,cola,render,textura,&canhold);
+                     truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,puntuacion);
                  }
                  if(evento.key.keysym.sym==SDLK_c || evento.key.keysym.sym==SDLK_k)
                  {
@@ -90,7 +89,7 @@ int main(int argv, char** args)
                  if(evento.key.keysym.sym==SDLK_SPACE)
                  {
                      pos=hardfall(pos,matestado,empty);
-                     truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold);
+                     truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,puntuacion);
                  }
 
 
@@ -103,7 +102,7 @@ int main(int argv, char** args)
          if(difftime(now,past)>=1)
          {
              old=pos;
-             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold);
+             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,puntuacion);
              past=now;
 
               pintapiece(pos,old,matestado,empty,render);

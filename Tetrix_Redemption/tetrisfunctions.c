@@ -445,31 +445,31 @@ pieza rot(pieza pis,char dir) //rota la pieza hacia la sireccion elegida
 
 }
 
-pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int empty)//ejecuta el giro de la pieza combinando canrotate y rot y pule erroes
+pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int vasio)//ejecuta el giro de la pieza combinando canrotate y rot y pule erroes
 {
     int aux;
     for(aux= 0; aux< 2; aux++)
         {
-            if(canrotate(matestado,10,20,pos,rotdir,empty)==1)
+            if(canrotate(matestado,10,20,pos,rotdir,vasio)==1)
                 {
                     pos=rot(pos,rotdir);
                     aux++;
                 }
             else
                 {
-                    if(canmove(matestado,10,20,pos,'r',empty)==1 && canmove(matestado,10,20,pos,'l',empty)==1)
+                    if(canmove(matestado,10,20,pos,'r',vasio)==1 && canmove(matestado,10,20,pos,'l',vasio)==1)
                         {
                             pos.posx+=1;
-                            if(canrotate(matestado,10,20,pos,rotdir,empty)==0)
+                            if(canrotate(matestado,10,20,pos,rotdir,vasio)==0)
                                 pos.posx-=2;
-                            else if(canrotate(matestado,10,20,pos,rotdir,empty)==1 && aux== 1)
+                            else if(canrotate(matestado,10,20,pos,rotdir,vasio)==1 && aux== 1)
                                 pos=rot(pos,rotdir);
                         }
                     else
                         {
-                            if(canmove(matestado,10,20,pos,'r',empty)==1)
+                            if(canmove(matestado,10,20,pos,'r',vasio)==1)
                                 pos.posx+=1;
-                            else if(canmove(matestado,10,20,pos,'l',empty)==1)
+                            else if(canmove(matestado,10,20,pos,'l',vasio)==1)
                                 pos.posx-=1;
                         }
                 }
@@ -501,6 +501,7 @@ void linea(int mat[][20],int fil,int col,int vasio, int *p) //detecta y elimina 
                 {
                     comp=0;
                 }
+            }
         if(comp==1) //si el comprobador no cambia la linea actual y las que tenga arriba serán sustituidas por la linea directamente superior
         {
             n += 1;
@@ -514,7 +515,6 @@ void linea(int mat[][20],int fil,int col,int vasio, int *p) //detecta y elimina 
             }
             comp=0; //pasa el comprobador a 0 de nuevo ya que pueden crearse hasta cuatro lineas en una jugada
         }
-            }
 
     }
     while(n<=4 && n>0)
@@ -557,7 +557,7 @@ void scene(SDL_Renderer *Render,SDL_Window *Ventana,SDL_Texture *Textura,char pa
             }
 }
 
-void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura,int *canhold)
+void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura,int *canhold,int punt)
 {
     if(canfall(matestado,10,20,*pos,vasio)==1) // hacer la pieza caer si puede
                          {
@@ -567,7 +567,7 @@ void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza 
                          {
                              piece2mat(matestado,*pos);  //la pieza pasa a la matriz de estado
                              *pos=nextpiece(cola,4,render,textura); //se genera una nueva pieza
-                             linea(matestado,10,20,vasio);  //se quitan las lineas que haya podido crear la nueva pieza
+                             linea(matestado,10,20,vasio,&punt);  //se quitan las lineas que haya podido crear la nueva pieza
                              newframe(matestado,matscreen,10,20,vasio,*pos,render);
                              *exit=endgame(matestado,10,vasio);//se comprueba que la pieza no ha podido acabar la partida
                              *old=*pos;

@@ -14,7 +14,7 @@ typedef struct
     char nombre[4];
     int puntuacion;
 }jugador;
-void highscore(jugador vec[])://funcion encargada de ordenar la puntuacion
+void highscore(jugador vec[]);//funcion encargada de ordenar la puntuacion
 
 //para obtener las coordenadas de los bloques no centrales se suman las coordenadas relativas a las totales
 
@@ -35,13 +35,13 @@ int canmove(int mat[][20],int fil,int col,pieza pis,int dir,int vasio);//comprue
 pieza mov(pieza pis,char dir);//mueve la pieza a la direccion elegida
 int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio);//comprueba que puede rotar la pieza a la dirección elegida
 pieza rot(pieza pis,char dir); // rota la pieza según la dirección elegida
-pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int empty);//ejecuta el giro de la pieza combinando canrotate y rot y corrige errores
+pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int vasio);//ejecuta el giro de la pieza combinando canrotate y rot y corrige errores
 pieza hardfall(pieza pis,int mat [][20],int vasio);
 
-void linea(int mat[][20],int fil,int col,int vasio); //si hay una linea completa baja todo lo que haya arriba borrando la linea completa en el proceso
+void linea(int mat[][20],int fil,int col,int vasio,int *p); //si hay una linea completa baja todo lo que haya arriba borrando la linea completa en el proceso
 int endgame(int mat[][20],int fil, int vasio); //si hay algún bloque en la última linea acaba la partida
 
-void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura,int *canhold);
+void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza *old,pieza *pos,pieza cola[],SDL_Renderer *render,SDL_Texture *textura,int *canhold,int punt);
 pieza nextpiece(pieza cola[],int tam,SDL_Renderer *render,SDL_Texture *textura);
 void rendercola(pieza cola[], int tam, SDL_Renderer *render,SDL_Texture *textura);
 pieza hold(pieza *hold,pieza curr,int *canhold,pieza cola[],SDL_Renderer *render, SDL_Texture *textura);
