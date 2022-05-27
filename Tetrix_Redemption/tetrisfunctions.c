@@ -23,8 +23,11 @@ int menu()
 
             case 'c':
             case 'C':
-                printf("Para mover la pieza en horizontal utilizar las flechas laterales, para rotar utilizar la flecha superior, y para bajar utilizar la inferior\n");
-                break;
+                       printf("Para mover la pieza en horizontal utilizar las flechas laterales,'a' o 'd'\n"
+                       "para rotar a la derecha la flecha superior o 'g'y para rotar a la izquierda 'f'\n"
+                       "para bajar utilizar la flecha inferior o 's' y para bajar instantaneo 'espacio'\n"
+                       "para guardar pieza utilizar 'k'\n");
+            break;
 
             case 'j':
             case 'J':
