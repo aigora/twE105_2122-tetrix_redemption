@@ -14,6 +14,6 @@ Tetris, el clásico juego de colocar piezas para llenar filas
 
 El objetivo final es hacer de este proyecto un juego arcade lo más fiel posible al original.
 Para lograrlo hemos perseguido objetivos como:
-.Menu con funciones básicas
-.Sistema de puntuación con guardado de las más altas
-.Juego totalmente funciónal, entretenido y atractivo
+menu con funciones básicas, 
+sistema de puntuación con guardado de las más altas,
+un juego totalmente funciónal, entretenido y atractivo
