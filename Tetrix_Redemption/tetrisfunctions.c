@@ -385,7 +385,7 @@ int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio) // com
     int x[4],y[4],i;
     int comp=1;
 
-      // las coordenadas del bloque central no varían en una rotacion, solo varían las relativas
+      // las coordenadas del bloque central no varían en una rotación, solo varían las relativas
         x[0]=pis.posx;
         y[0]=pis.posy;
 
@@ -409,7 +409,7 @@ int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio) // com
     {
         comp=0;
     }
-    for(i=0;i<4;i++) //comprueba que las coordenadas resultantes de una rotación en la dirección elegida estan vacias y no superan los limites de la zona de juego
+    for(i=0;i<4;i++) //comprueba que las coordenadas resultantes de una rotación en la dirección elegida estan vacías y no superan los límites de la zona de juego
     {
         if((mat[x[i]][y[i]]!=vasio)||(x[i]>=fil)||(x[i]<0)||(y[i]>=col))
             comp=0;
@@ -417,7 +417,7 @@ int canrotate(int mat[][20],int fil,int col,pieza pis,char dir,int vasio) // com
     return comp;
 }
 
-pieza rot(pieza pis,char dir) //rota la pieza hacia la sireccion elegida
+pieza rot(pieza pis,char dir) //rota la pieza hacia la dirección elegida
 {
     int i, oldx[3], oldy[3]; //en este caso se guardan las coordenadas relativas para que al irlas cambiando no den error
 
@@ -448,7 +448,7 @@ pieza rot(pieza pis,char dir) //rota la pieza hacia la sireccion elegida
 
 }
 
-pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int vasio)//ejecuta el giro de la pieza combinando canrotate y rot y pule erroes
+pieza giro(pieza pos, int matestado[][20], int fil, int col, char rotdir, int vasio)//en caso de poder girar la pieza si esta se desplazará, hace ambas acciones
 {
     int aux;
     for(aux= 0; aux< 2; aux++)
