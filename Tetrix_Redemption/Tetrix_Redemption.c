@@ -21,14 +21,14 @@ int main(int argv, char** args)
 	exit=menu(&cargar,&replay);
 
     srand(time(NULL));
-    SDL_Init(SDL_INIT_EVERYTHING);
-    ventana = SDL_CreateWindow( "Tetrix.exe", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN );
-    render= SDL_CreateRenderer( ventana, -1, SDL_RENDERER_ACCELERATED );
 
-
-    scene(render,ventana,textura,"sprites/Tetrix_Background.bmp");
 
     while(replay!=0){
+            SDL_Init(SDL_INIT_EVERYTHING);
+            ventana = SDL_CreateWindow( "Tetrix.exe", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN );
+            render= SDL_CreateRenderer( ventana, -1, SDL_RENDERER_ACCELERATED );
+            scene(render,ventana,textura,"sprites/Tetrix_Background.bmp");
+
             if (cargar!=1)
             {
                 iniciarpartida(matestado,matscreen,empty,cola,&pos,&holdedpiece,render,textura);
@@ -49,6 +49,15 @@ int main(int argv, char** args)
      while(exit==0)//bucle principal del juego
      {
          now=time(NULL);
+
+         if(difftime(now,past)>=1)
+         {
+             old=pos;
+             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,&puntuacion);
+             past=now;
+
+              pintapiece(pos,old,matestado,empty,render);
+         }
 
 
          while(SDL_PollEvent(&evento))
@@ -96,8 +105,22 @@ int main(int argv, char** args)
                  }
                  if(evento.key.keysym.sym==SDLK_ESCAPE)
                  {
-                     exit=pausa(matestado,pos,holdedpiece,cola,puntuacion);
-                     past=now; // para evitar un salto repentino tras la pausa
+                    SDL_DestroyWindow(ventana);
+                    SDL_DestroyTexture(textura);
+                    SDL_DestroyRenderer(render);
+
+                    exit=pausa(matestado,pos,holdedpiece,cola,puntuacion);
+
+                    SDL_Init(SDL_INIT_EVERYTHING);
+                    ventana = SDL_CreateWindow( "Tetrix.exe", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN );
+                    render= SDL_CreateRenderer( ventana, -1, SDL_RENDERER_ACCELERATED );
+                    scene(render,ventana,textura,"sprites/Tetrix_Background.bmp");
+                    canhold=0;
+                    pos=hold(&holdedpiece,pos,&canhold,cola,render,textura);
+                    newframe(matestado,matscreen,10,20,empty,pos,render);
+                    rendercola(cola,4,render,textura);
+
+                    past=now; // para evitar un salto repentino tras la pausa
                  }
 
 
@@ -106,16 +129,10 @@ int main(int argv, char** args)
 
 
         }
-
-         if(difftime(now,past)>=1)
-         {
-             old=pos;
-             truefall(matestado,matscreen,empty,&exit,&old,&pos,cola,render,textura,&canhold,&puntuacion);
-             past=now;
-
-              pintapiece(pos,old,matestado,empty,render);
-         }
      }
+     SDL_DestroyWindow(ventana);
+     SDL_DestroyTexture(textura);
+     SDL_DestroyRenderer(render);
      while(exit==3)
      {
          printf("Desea guardar la puntuacion? (y) (n) \n Su puntuacion: %i \n",puntuacion);

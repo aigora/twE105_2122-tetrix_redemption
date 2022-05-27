@@ -50,5 +50,4 @@ pieza hold(pieza *hold,pieza curr,int *canhold,pieza cola[],SDL_Renderer *render
 void piecepreview(pieza pis,int mat[][20],int vasio,int alfa,int old,SDL_Renderer *render);
 
 int pausa(int mat[][20],pieza pos,pieza hold,pieza cola[],int pts);
-void cargarpartida(int mat[][20],pieza *pos,pieza *hold,pieza cola[],int *pts);
 void iniciarpartida(int matestado [][20],int matscreen[][20],int vasio,pieza cola[],pieza *pos,pieza *holdedpiece,SDL_Renderer *render,SDL_Texture *textura);

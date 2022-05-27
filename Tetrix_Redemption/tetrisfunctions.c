@@ -54,7 +54,7 @@ int menu(int *cargar,int *replay)
                 printf("Para mover la pieza en horizontal utilizar las flechas laterales,'a' o 'd'\n"
                        "para rotar a la derecha la flecha superior o 'g'y para rotar a la izquierda 'f'\n"
                        "para bajar utilizar la flecha inferior o 's' y para bajar instantaneo 'espacio'\n"
-                       "para guardar pieza utilizar 'k'\n");
+                       "para guardar pieza utilizar 'k' o 'c'\n");
                 break;
 
             case 'n':
@@ -917,15 +917,15 @@ int pausa(int mat[][20],pieza pos,pieza hold,pieza cola[],int pts)
     while(salir==0)
     {
         scanf("%c%c",&opt,&opt);//al dale al enter detecta un segudo char y hace dos veces el ciclo
-        if(opt=='c')
+        if(opt=='c'||opt=='C')
         {
             return 0;
         }
-        if(opt=='s')
+        if(opt=='s' || opt=='S')
         {
             return 1;
         }
-        if(opt=='g')
+        if(opt=='g'||opt=='G')
         {
             FILE *matriz,*pieza,*points;
             matriz = fopen("Guardado/Matriz.csv","w");
@@ -980,8 +980,9 @@ int pausa(int mat[][20],pieza pos,pieza hold,pieza cola[],int pts)
             printf("\n \n Puntuacion actual: %ipts\n\n HIGHSCORE\n",pts);
             for(i=0;i<tam;i+=1)
             {
-                printf("%i: %c%c%c\t%ipts\n\n\n",i+1,vec[i].name1,vec[i].name2,vec[i].name3,vec[i].puntuacion);
+                printf("%i: %c%c%c\t%ipts\n",i+1,vec[i].name1,vec[i].name2,vec[i].name3,vec[i].puntuacion);
             }
+            printf("\n\n");
 
             fclose(punt);
         }
