@@ -1,20 +1,18 @@
 # depslib dependency file v1.0
-1653688694 source:d:\codeblocks\tetrix_redemption\tetrisfunctions.c
+1653739557 source:d:\codeblocks\tetrix_redemption\tetrisfunctions.c
 	<stdio.h>
 	"tetrisfunctions.h"
 	<time.h>
-	<stdlib.h>
 	<SDL2/SDL.h>
 
 1653688694 d:\codeblocks\tetrix_redemption\tetrisfunctions.h
 	<stdio.h>
 	<SDL2/SDL.h>
 
-1653688921 source:d:\codeblocks\tetrix_redemption\tetrix_redemption.c
+1653739365 source:d:\codeblocks\tetrix_redemption\tetrix_redemption.c
 	<stdio.h>
 	"tetrisfunctions.h"
 	<time.h>
-	<stdlib.h>
 	<SDL2/SDL.h>
 
 1653526002 source:c:\users\ariel carnés\documents\github\twe105_2122-tetrix_redemption\tetrix_redemption\tetrisfunctions.c
