@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include"tetrisfunctions.h"
 #include<time.h>
-#include<stdlib.h>
 #include<SDL2/SDL.h>
 
 int menu(int *cargar,int *replay)
@@ -44,7 +43,7 @@ int menu(int *cargar,int *replay)
                     {
                         printf("%i: %c%c%c\t%ipts\n",i+1,vec[i].name1,vec[i].name2,vec[i].name3,vec[i].puntuacion);
                     }
-                    printf("\n\nPuntuacion(p) \nControles(c) \nNueva Partida (n)\nCargar Partida(l) \n");
+                    printf("\n\nPuntuacion(p) \nControles(c) \nNueva Partida (n)\nCargar Partida(l) \nSalir (s)\n");
 
                     fclose(punt);
                     break;
@@ -54,7 +53,8 @@ int menu(int *cargar,int *replay)
                 printf("Para mover la pieza en horizontal utilizar las flechas laterales,'a' o 'd'\n"
                        "para rotar a la derecha la flecha superior o 'g'y para rotar a la izquierda 'f'\n"
                        "para bajar utilizar la flecha inferior o 's' y para bajar instantaneo 'espacio'\n"
-                       "para guardar pieza utilizar 'k' o 'c'\n");
+                       "para guardar pieza utilizar 'k' o 'c'\n"
+                       "para acceder al menu de pausa utilizar la tecla de ecape 'esc'");
                 break;
 
             case 'n':
@@ -272,7 +272,6 @@ int canfall(int matriz[][20],int fil,int col,pieza pise,int vasio) //comprobaci�
             comp=0;
     }
     return comp;
-
 }
 
 pieza newpiece() //genera una nueva pieza
@@ -493,7 +492,7 @@ int endgame(int mat[][20],int fil,int vasio) //comprueba si ha de terminar el ju
     for(i=0;i<fil;i++) //si la linea mas alta tiene algún bloque el comprobador cambia a que la partida debería terminar
     {
         if(mat[i][0]!=vasio)
-            comp=3;
+            comp=1;
     }
     return comp;
 }
@@ -578,7 +577,7 @@ void truefall(int matestado[][20],int matscreen[][20],int vasio,int *exit,pieza 
                              piece2mat(matestado,*pos);  //la pieza pasa a la matriz de estado
                              *pos=nextpiece(cola,4,render,textura); //se genera una nueva pieza
                              linea(matestado,10,20,vasio,p);  //se quitan las lineas que haya podido crear la nueva pieza
-                             newframe(matestado,matscreen,10,20,vasio,*pos,render);
+                             newframe(matestado,matscreen,10,20,vasio,*pos,render);//pasa matestado y pos a matscreen, y renderiza matscreen
                              *exit=endgame(matestado,10,vasio);//se comprueba que la pieza no ha podido acabar la partida
                              *old=*pos;
                              *canhold=1;

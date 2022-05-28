@@ -1,16 +1,15 @@
 #include<stdio.h>
 #include"tetrisfunctions.h"
 #include<time.h>
-#include<stdlib.h>
 #include<SDL2/SDL.h>
 
 
 int main(int argv, char** args)
 {
-    char guardarpuntuacion;
+    char guardarpuntuacion,replayc;
     int matestado[10][20],matscreen[10][20];//matestado guarda los bloques ya colocados y matscrren se usará para componer los bloques ya colocados y la posición de la pieza
     pieza pos,old,cola[4],holdedpiece;
-    int empty=' ',rotdir,movdir,exit=0,canhold=1,cargar=0,puntuacion;
+    int empty=' ',rotdir,movdir,exit=0,canhold=1,cargar=0,puntuacion,i;
     int replay=1;
     time_t past, now;
     SDL_Event evento;
@@ -41,6 +40,7 @@ int main(int argv, char** args)
             }
             canhold=0;
             pos=hold(&holdedpiece,pos,&canhold,cola,render,textura);
+            canhold=1;//se devuelbe la posibilidad de holdear
             newframe(matestado,matscreen,10,20,empty,pos,render);
             rendercola(cola,4,render,textura);
 
@@ -111,16 +111,20 @@ int main(int argv, char** args)
 
                     exit=pausa(matestado,pos,holdedpiece,cola,puntuacion);
 
-                    SDL_Init(SDL_INIT_EVERYTHING);
-                    ventana = SDL_CreateWindow( "Tetrix.exe", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN );
-                    render= SDL_CreateRenderer( ventana, -1, SDL_RENDERER_ACCELERATED );
-                    scene(render,ventana,textura,"sprites/Tetrix_Background.bmp");
-                    canhold=0;
-                    pos=hold(&holdedpiece,pos,&canhold,cola,render,textura);
-                    newframe(matestado,matscreen,10,20,empty,pos,render);
-                    rendercola(cola,4,render,textura);
+                    if(exit==0)
+                    {
+                        SDL_Init(SDL_INIT_EVERYTHING);
+                        ventana = SDL_CreateWindow( "Tetrix.exe", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN );
+                        render= SDL_CreateRenderer( ventana, -1, SDL_RENDERER_ACCELERATED );
+                        scene(render,ventana,textura,"sprites/Tetrix_Background.bmp");
+                        canhold=0;
+                        pos=hold(&holdedpiece,pos,&canhold,cola,render,textura);
+                        canhold=1;//se devuelve la habilidad
+                        newframe(matestado,matscreen,10,20,empty,pos,render);
+                        rendercola(cola,4,render,textura);
 
-                    past=now; // para evitar un salto repentino tras la pausa
+                        past=now; // para evitar un salto repentino tras la pausa
+                    }
                  }
 
 
@@ -133,22 +137,35 @@ int main(int argv, char** args)
      SDL_DestroyWindow(ventana);
      SDL_DestroyTexture(textura);
      SDL_DestroyRenderer(render);
-     while(exit==3)
+     i=0;
+     while(i==0)
      {
          printf("Desea guardar la puntuacion? (y) (n) \n Su puntuacion: %i \n",puntuacion);
          scanf("%c%c",&guardarpuntuacion,&guardarpuntuacion);//al dale al enterdetecta un segudo char y hace dos veces el ciclo
          if(guardarpuntuacion=='y')
          {
              appendscore(puntuacion);
-             exit=1;
+             i=1;
          }
          if(guardarpuntuacion=='n')
          {
-             exit=1;
+             i=1;
          }
      }
-     printf("Nueva partida? 1 (si) 0 (no)\n");
-     scanf("%i",&replay);
+     while(exit==1&&i==1)
+        {
+            printf("Nueva partida? y (si) n (no)\n");
+            scanf("%c%c",&replayc,&replayc);
+            if(replayc=='y')
+            {
+                i=0;
+            }
+            if(replayc=='n')
+            {
+                replay=0;
+                i=0;
+            }
+     }
      if (replay!=0)
      {
          exit=0;
